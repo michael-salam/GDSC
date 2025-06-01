@@ -1,41 +1,42 @@
-import { MdOutlineAddBox } from "react-icons/md";
-import Header from "./components/Header";
-import PostCard from "./components/PostCard";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import AddPostForm from "./components/AddPostForm";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Header from "./components/Header";
 
-function App() {
-  // state
-  const [isDisplayingAddPostForm, setIsDisplayingAddPostForm] = useState(false);
-  const [posts, setPosts] = useState([])
+interface ProfileData {
+  name: string;
+  bio: string;
+  profilePicture: string;
+}
+
+const App = () => {
+  const [profileData, setProfileData] = useState<ProfileData>({
+    name: "Michael Salam",
+    bio: "200lvl Computer science student at the University of Lagos. Passionate about software development and open source.",
+    profilePicture: "/profile-picture.jpg",
+  });
 
   return (
-    <div className="min-h-screen bg-slate-200">
-      <Header />
-      {isDisplayingAddPostForm && <AddPostForm setPosts={setPosts} setIsDisplayingAddPostForm={setIsDisplayingAddPostForm} />}
-
-      <main className="container mx-auto p-4 max-w-[500px]">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Feed</h1>
-          <button onClick={() => setIsDisplayingAddPostForm(true)}>
-            <MdOutlineAddBox className="text-blue-600 text-2xl cursor-pointer" />
-          </button>
-        </div>
-        <div>
-          {posts.map(({ id, name, profilePicture, content, time }) => (
-            <PostCard
-              id={id}
-              name={name}
-              profilePicture={profilePicture}
-              content={content}
-              time={time}
-              key={id}
-            />
-          ))}
-        </div>
-      </main>
-    </div>
+    <Router>
+      <div className="min-h-screen">
+        <Header profilePicture={profileData.profilePicture} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                profileData={profileData}
+                setProfileData={setProfileData}
+              />
+            }
+          />
+          <Route path="*" element={<div>Not found!</div>} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
