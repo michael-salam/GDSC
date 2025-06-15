@@ -1,13 +1,19 @@
 import { useState} from "react";
 
-const AddPostForm = ({
-  setIsDisplayingAddPostForm,
-  setPosts
+const PostForm = ({
+  setIsDisplayingPostForm,
+  setPosts,
+  edit=false
 }: any) => {
     const [postContent, setPostContent] = useState("");
 
 const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
+  if(edit){
+    alert("Edit functionality is not implemented yet.");
+    setPostContent("");
+    setIsDisplayingPostForm(false);
+  }
 
     if (!postContent) {
         alert("Please enter some content for your post.");
@@ -24,19 +30,19 @@ const handleSubmit = (e: React.FormEvent) => {
     
     setPosts((prevPosts:any) => [...prevPosts, newPost]);
     setPostContent(""); // Clear the input field
-    setIsDisplayingAddPostForm(false); // Close the form
+    setIsDisplayingPostForm(false); // Close the form
 }
   return (
     <>
       <div
-        onClick={() => setIsDisplayingAddPostForm(false)}
+        onClick={() => setIsDisplayingPostForm(false)}
         className="fixed inset-0 bg-black/80"
       />
       
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Add New Post</h2>
+            <h2 className="text-xl font-bold mb-4">{ edit ? "Edit Post" : "Add New Post" }</h2>
             <textarea
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
@@ -47,12 +53,12 @@ const handleSubmit = (e: React.FormEvent) => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-4 py-2 rounded mr-2"
+                className="bg-blue-600 text-white px-4 py-2 rounded mr-2 cursor-pointer"
               >
-                Post
+                {edit ? "Edit" : "Post"}
               </button>
               <button
-                onClick={() => setIsDisplayingAddPostForm(false)}
+                onClick={() => setIsDisplayingPostForm(false)}
                 type="button"
                 className="bg-gray-300 cursor-pointer text-gray-700 px-4 py-2 rounded"
               >
@@ -66,4 +72,4 @@ const handleSubmit = (e: React.FormEvent) => {
   );
 };
 
-export default AddPostForm;
+export default PostForm;
