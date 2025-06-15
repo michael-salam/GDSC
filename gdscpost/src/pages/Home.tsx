@@ -1,7 +1,7 @@
 import { MdOutlineAddBox } from "react-icons/md";
 import PostCard from "../components/PostCard";
 import { useState } from "react";
-import AddPostForm from "../components/AddPostForm";
+import PostForm from "../components/PostForm";
 
 function Home() {
   // state
@@ -11,9 +11,9 @@ function Home() {
   return (
     <>
       {isDisplayingAddPostForm && (
-        <AddPostForm
+        <PostForm
           setPosts={setPosts}
-          setIsDisplayingAddPostForm={setIsDisplayingAddPostForm}
+          setIsDisplayingPostForm={setIsDisplayingAddPostForm}
         />
       )}
 
